@@ -1,0 +1,48 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "Valentin's personal website",
+  "main": "index.js",
+  "scripts": {
+    "run": "gatsby develop",
+    "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx --ext js --ext jsx",
+    "test": "npm run type-check && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vquelque/website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vquelque/website/issues"
+  },
+  "homepage": "https://github.com/vquelque/website#readme",
+  "dependencies": {
+    "gatsby": "^2.29.1",
+    "gatsby-plugin-typescript": "^2.9.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.14",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "eslint": "^7.16.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.3.0",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "typescript": "^4.1.3"
+  },
+  "resolutions": {
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0"
+  }
+}
