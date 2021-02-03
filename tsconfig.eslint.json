@@ -8,5 +8,5 @@
 
         // these are the eslint-only inclusions
         ".eslintrc.js","gatsby-config.js"
-    ]
+    ],
 }
