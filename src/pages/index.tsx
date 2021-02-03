@@ -24,15 +24,18 @@ const Index = () => (
             Hey ! I am Valentin Quelquejay.
           </h1>
           <p className="mb-8 leading-relaxed">
-            I study Cybersecurity at EPFL and ETHZ in Switzerland. <br />
+            I study <strong>Cybersecurity</strong> at EPFL and ETHZ in Switzerland.<br />
             I love to build stuff. <br />
             I build a lot of stuff. <br />
-            I am a passionate entrepreneur.
-            <br />I try build cool companies.
+            I am a <strong>passionate entrepreneur</strong>.<br />
+            I try to build cool companies. <br />
+            I'm a music and audio fan. <br />
+            I believe <strong>perfectionism is in simplicity</strong>.<br />
+            Everything outdoor makes me smile.
           </p>
           <br />
           <h2 className="text-2xl mb-1">
-            Get in touch with me :{" "}
+            Get in touch with me:
           </h2>
           <div className="flex space-x-5 text-gray-400 text-md">
             <a
