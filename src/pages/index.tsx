@@ -19,9 +19,9 @@ const Index = () => (
             src="/val_cover.jpg"
           />
         </div>
-        <div className="lg:flex-grow md:w-1/2 xl:pl-24 md:pl-12 flex flex-col md:items-start md:text-left items-center text-center">
+        <div className="lg:flex-basis md:w-1/2 xl:pl-24 md:pl-12 flex flex-col md:items-start md:text-left items-center text-center">
           <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
-            Hey ! I am Valentin Quelquejay.
+            Hey ! I am <img src='logo.png' alt='valentin quelquejay' className='xlg:w-1/2 inline-block pb-4 w-7/12'/>.
           </h1>
           <p className="mb-8 leading-relaxed">
             I study <strong>Cybersecurity</strong> at EPFL and ETHZ in Switzerland.<br />
