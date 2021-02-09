@@ -14,7 +14,7 @@ const Index = () => (
   <Layout>
     <Helmet>
       <title>Valentin Quelquejay</title>
-      <description>Valentin Quelquejay's website</description>
+      <description>Valentin Quelquejay&apos;s website</description>
       {/* <!-- Primary Meta Tags --> */}
       <title>Valentin Quelquejay</title>
       <meta name="title" content="Valentin Quelquejay" />
@@ -25,7 +25,7 @@ const Index = () => (
       <meta property="og:url" content="https://valentinquelquejay.me/" />
       <meta property="og:title" content="Valentin Quelquejay" />
       <meta property="og:description" content="Valentin Quelquejay's website" />
-      <meta property="og:image" content="" />
+      <meta property="og:image" content="social.png" />
 
       {/* <!-- Twitter --> */}
       <meta property="twitter:card" content="summary_large_image" />
@@ -35,7 +35,7 @@ const Index = () => (
         property="twitter:description"
         content="Valentin Quelquejay's website"
       />
-      <meta property="twitter:image" content=""></meta>
+      <meta property="twitter:image" content="social.png" />
     </Helmet>
     <div className="text-gray-600 body-font flex items-center h-screen">
       <div className="container m-auto flex px-5 py-16 md:flex-row flex-col items-center">
