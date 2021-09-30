@@ -63,7 +63,7 @@ const Index = () => (
             I love to build stuff. <br />
             I build a lot of stuff. <br />I am a{" "}
             <strong>passionate entrepreneur</strong>.<br />
-            I build cool companies with incredible people. <br />
+            I build cool projects with incredible people. <br />
             I'm a music and audio fan. <br />I seek{" "}
             <strong>perfectionism in simplicity</strong>.<br />
             Everything outdoor makes me smile.
