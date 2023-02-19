@@ -1,14 +1,14 @@
-import React from "react";
-import { Helmet } from "react-helmet";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faGithub,
   faLinkedin,
   faTwitter,
   faMedium,
-} from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import Layout from "../components/layout";
+} from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import Layout from '../components/layout';
 
 const Index = () => (
   <Layout>
@@ -48,7 +48,7 @@ const Index = () => (
         </div>
         <div className="lg:flex-basis md:w-1/2 xl:pl-24 md:pl-12 flex flex-col md:items-start md:text-left items-center text-center">
           <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
-            Hey ! I am{" "}
+            Hey ! I am{' '}
             <img
               src="logo.png"
               alt="valentin quelquejay"
@@ -57,14 +57,17 @@ const Index = () => (
             .
           </h1>
           <p className="mb-8 leading-relaxed">
-            I study <strong>Cybersecurity</strong> at EPFL and ETHZ in
-            Switzerland.
+            I am passionate about <strong>Blockchain</strong> technologies.
+            <br />I am currently working as a{' '}
+            <strong>Blockchain Security Engineer</strong> at Consensys
+            Diligence.
+            <br />I graduated with <strong>Cybersecurity</strong> degree from
+            EPFL & ETHZ (in 2022).
             <br />
-            I love to build stuff. <br />
-            I build a lot of stuff. <br />I am a{" "}
+            I love to build stuff. <br />I am a{' '}
             <strong>passionate entrepreneur</strong>.<br />
             I build cool projects with incredible people. <br />
-            I'm a music and audio fan. <br />I seek{" "}
+            I'm a music and audio fan. <br />I seek{' '}
             <strong>perfectionism in simplicity</strong>.<br />
             Everything outdoor makes me smile.
           </p>
@@ -76,23 +79,23 @@ const Index = () => (
               target="_blank"
               className="transform hover:scale-110"
             >
-              {" "}
-              <FontAwesomeIcon icon={faLinkedin} size="2x" />{" "}
+              {' '}
+              <FontAwesomeIcon icon={faLinkedin} size="2x" />{' '}
             </a>
             <a
               href="https://twitter.com/vquelque"
               target="_blank"
               className="transform hover:scale-110"
             >
-              {" "}
-              <FontAwesomeIcon icon={faTwitter} size="2x" />{" "}
+              {' '}
+              <FontAwesomeIcon icon={faTwitter} size="2x" />{' '}
             </a>
             <a
               href="https://vquelque.medium.com"
               target="_blank"
               className="transform hover:scale-110"
             >
-              {" "}
+              {' '}
               <FontAwesomeIcon icon={faMedium} size="2x" />
             </a>
             <a
@@ -100,7 +103,7 @@ const Index = () => (
               target="_blank"
               className="transform hover:scale-110"
             >
-              {" "}
+              {' '}
               <FontAwesomeIcon icon={faGithub} size="2x" />
             </a>
             <a
