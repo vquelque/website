@@ -10,33 +10,35 @@ import {
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import Layout from '../components/layout';
 
+// Header
+export const Head = () => (
+  <>
+    {/* <!-- Primary Meta Tags --> */}
+    <title>Valentin Quelquejay</title>
+    <meta name="title" content="Valentin Quelquejay" />
+    <meta name="description" content="Valentin Quelquejay's website" />
+
+    {/* <!-- Open Graph / Facebook --> */}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://valentinquelquejay.me/" />
+    <meta property="og:title" content="Valentin Quelquejay" />
+    <meta property="og:description" content="Valentin Quelquejay's website" />
+    <meta property="og:image" content="social.png" />
+
+    {/* <!-- Twitter --> */}
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://valentinquelquejay.me/" />
+    <meta property="twitter:title" content="Valentin Quelquejay" />
+    <meta
+      property="twitter:description"
+      content="Valentin Quelquejay's website"
+    />
+    <meta property="twitter:image" content="social.png" />
+  </>
+)
+
 const Index = () => (
   <Layout>
-    <Helmet>
-      <title>Valentin Quelquejay</title>
-      <description>Valentin Quelquejay&apos;s website</description>
-      {/* <!-- Primary Meta Tags --> */}
-      <title>Valentin Quelquejay</title>
-      <meta name="title" content="Valentin Quelquejay" />
-      <meta name="description" content="Valentin Quelquejay's website" />
-
-      {/* <!-- Open Graph / Facebook --> */}
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://valentinquelquejay.me/" />
-      <meta property="og:title" content="Valentin Quelquejay" />
-      <meta property="og:description" content="Valentin Quelquejay's website" />
-      <meta property="og:image" content="social.png" />
-
-      {/* <!-- Twitter --> */}
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content="https://valentinquelquejay.me/" />
-      <meta property="twitter:title" content="Valentin Quelquejay" />
-      <meta
-        property="twitter:description"
-        content="Valentin Quelquejay's website"
-      />
-      <meta property="twitter:image" content="social.png" />
-    </Helmet>
     <div className="text-gray-600 body-font flex items-center h-screen">
       <div className="container m-auto flex px-5 py-16 md:flex-row flex-col items-center">
         <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
