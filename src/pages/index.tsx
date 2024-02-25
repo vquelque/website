@@ -7,7 +7,7 @@ import {
   faTwitter,
   faMedium,
 } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faBlog, faBook, faEnvelope, faMailBulk, faPen } from '@fortawesome/free-solid-svg-icons';
 import Layout from '../components/layout';
 
 // Header
@@ -23,7 +23,6 @@ export const Head = () => (
     <meta property="og:url" content="https://valentinquelquejay.me/" />
     <meta property="og:title" content="Valentin Quelquejay" />
     <meta property="og:description" content="Valentin Quelquejay's website" />
-    <meta property="og:image" content="social.png" />
 
     {/* <!-- Twitter --> */}
     <meta property="twitter:card" content="summary_large_image" />
@@ -33,22 +32,21 @@ export const Head = () => (
       property="twitter:description"
       content="Valentin Quelquejay's website"
     />
-    <meta property="twitter:image" content="social.png" />
   </>
 )
 
 const Index = () => (
   <Layout>
     <div className="text-gray-600 body-font flex items-center h-screen">
-      <div className="container m-auto flex px-5 py-16 md:flex-row flex-col items-center">
-        <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
+      <div className="container m-auto flex px-5 py-16 md:flex-row flex-col items-center h-full">
+        <div className="md:w-1/2 h-full">
           <img
-            className="rounded-lg h-96 object-cover mx-auto"
+            className="rounded-lg max-h-full object-cover mx-auto"
             alt="hero"
-            src="/val_cover.jpg"
+            src="/val.jpg"
           />
         </div>
-        <div className="lg:flex-basis md:w-1/2 xl:pl-24 md:pl-12 flex flex-col md:items-start md:text-left items-center text-center">
+        <div className="py-16 lg:flex-basis md:w-1/2 xl:pl-24 md:pl-12 flex flex-col md:items-start md:text-left items-center text-center">
           <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
             Hey ! I am{' '}
             <img
@@ -59,14 +57,11 @@ const Index = () => (
             .
           </h1>
           <p className="mb-8 leading-relaxed">
-            I am passionate about <strong>Blockchain</strong> technologies.
+            I am passionate about <strong>Cybersecurity</strong> and <strong>Blockchain</strong>.
             <br />I am currently working as a{' '}
-            <strong>Blockchain Security Engineer</strong> at Consensys
-            Diligence.
-            <br />I graduated with <strong>Cybersecurity</strong> degree from
-            EPFL & ETHZ (in 2022).
+            <strong>Web3 Security Researcher</strong>.
             <br />
-            I love to build stuff. <br />I am a{' '}
+            I love thinking and building stuff. <br />I am a{' '}
             <strong>passionate entrepreneur</strong>.<br />
             I build cool projects with incredible people. <br />
             I'm a music and audio fan. <br />I seek{' '}
@@ -93,12 +88,12 @@ const Index = () => (
               <FontAwesomeIcon icon={faTwitter} size="2x" />{' '}
             </a>
             <a
-              href="https://vquelque.medium.com"
+              href="https://vquelque.substack.com"
               target="_blank"
               className="transform hover:scale-110"
             >
               {' '}
-              <FontAwesomeIcon icon={faMedium} size="2x" />
+              <FontAwesomeIcon icon={faPen} size="2x" />
             </a>
             <a
               href="https://www.github.com/vquelque"
