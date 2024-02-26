@@ -1,13 +1,11 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faGithub,
   faLinkedin,
   faTwitter,
-  faMedium,
 } from '@fortawesome/free-brands-svg-icons';
-import { faBlog, faBook, faEnvelope, faMailBulk, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faPen } from '@fortawesome/free-solid-svg-icons';
 import Layout from '../components/layout';
 
 // Header
@@ -33,13 +31,13 @@ export const Head = () => (
       content="Valentin Quelquejay's website"
     />
   </>
-)
+);
 
 const Index = () => (
   <Layout>
     <div className="text-gray-600 body-font flex items-center h-screen">
       <div className="container m-auto flex px-5 py-16 md:flex-row flex-col items-center h-full">
-        <div className="md:w-1/2 h-full">
+        <div className="md:w-1/2 h-4/5">
           <img
             className="rounded-lg max-h-full object-cover mx-auto"
             alt="hero"
@@ -57,14 +55,15 @@ const Index = () => (
             .
           </h1>
           <p className="mb-8 leading-relaxed">
-            I am passionate about <strong>Cybersecurity</strong> and <strong>Blockchain</strong>.
+            I am passionate about <strong>Cybersecurity</strong> and{' '}
+            <strong>Blockchain</strong>.
             <br />I am currently working as a{' '}
             <strong>Web3 Security Researcher</strong>.
             <br />
             I love thinking and building stuff. <br />I am a{' '}
             <strong>passionate entrepreneur</strong>.<br />
-            I build cool projects with incredible people. <br />
-            I'm a music and audio fan. <br />I seek{' '}
+            I build cool projects with amazing people. <br />
+            I'm a a <strong>serial optimizor</strong>. <br />I seek{' '}
             <strong>perfectionism in simplicity</strong>.<br />
             Everything outdoor makes me smile.
           </p>
