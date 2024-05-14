@@ -57,8 +57,7 @@ const Index = () => (
           <p className="mb-8 leading-relaxed">
             I am passionate about <strong>Cybersecurity</strong> and{' '}
             <strong>Blockchain</strong>.
-            <br />I am currently working as a{' '}
-            <strong>Web3 Security Researcher</strong>.
+            <br />I am currently building <strong><a href='https://thecreed.xyz' target='_blank' className='text-red-700'>Creed</a></strong>
             <br />
             I love thinking and building stuff. <br />I am a{' '}
             <strong>passionate entrepreneur</strong>.<br />
