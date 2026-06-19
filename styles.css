@@ -255,9 +255,9 @@ body::before {
   max-width: 46ch;
   color: var(--muted);
   font-size: clamp(0.98rem, 1.6vw, 1.08rem);
+  line-height: 1.9;
   margin-bottom: 36px;
 }
-.bio p + p { margin-top: 14px; }
 .bio strong { color: var(--text); font-weight: 600; }
 
 /* socials */
