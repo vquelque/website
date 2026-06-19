@@ -173,6 +173,8 @@ body::before {
 
 /* when JS is present the laser draws the signature — never show the typed name */
 .js .name-fallback { display: none; }
+/* …unless we won't draw a signature (reduced motion / build failed): keep the typed name */
+.js.no-sig .name-fallback { display: revert; }
 
 /* hand-drawn signature heading */
 .name .sig {

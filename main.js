@@ -1,11 +1,15 @@
 // current year in footer
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// laser pointer + drag-to-cut — disabled for touch devices and reduced-motion users
+// the laser draws the signature on load everywhere; the interactive drag-to-cut
+// is mouse-only, and reduced-motion users get the plain typed name instead
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isFinePointer = window.matchMedia("(pointer: fine)").matches;
 
-if (isFinePointer && !prefersReducedMotion) {
+if (prefersReducedMotion) {
+  // reduced motion: skip the laser entirely and keep the plain typed name
+  document.documentElement.classList.add("no-sig");
+} else {
   const laser = document.querySelector(".laser");
   const dot = document.querySelector(".laser-dot");
   const canvas = document.querySelector(".cut-canvas");
@@ -54,28 +58,6 @@ if (isFinePointer && !prefersReducedMotion) {
     }
   }
 
-  window.addEventListener("pointermove", (e) => {
-    targetX = e.clientX;
-    targetY = e.clientY;
-    dot.style.transform = `translate(${targetX}px, ${targetY}px)`;
-    if (cutting && currentStroke) {
-      const pts = currentStroke.points;
-      const last = pts[pts.length - 1];
-      if (Math.hypot(targetX - last.x, targetY - last.y) > 6) {
-        spawnSparks(targetX, targetY, 2);
-      }
-      pts.push({ x: targetX, y: targetY });
-    }
-  });
-
-  window.addEventListener("pointerdown", (e) => {
-    cutting = true;
-    laser.classList.add("cutting");
-    currentStroke = { points: [{ x: e.clientX, y: e.clientY }], releasedAt: null };
-    strokes.push(currentStroke);
-    spawnSparks(e.clientX, e.clientY, 6);
-  });
-
   function stopCutting() {
     cutting = false;
     laser.classList.remove("cutting");
@@ -84,9 +66,39 @@ if (isFinePointer && !prefersReducedMotion) {
       currentStroke = null;
     }
   }
-  window.addEventListener("pointerup", stopCutting);
-  // keep the laser visible even when the pointer leaves; just stop any cut
-  window.addEventListener("pointerleave", stopCutting);
+
+  // interactive drag-to-cut is mouse-only; touch devices just watch the
+  // signature draw itself on load
+  if (isFinePointer) {
+    window.addEventListener("pointermove", (e) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+      dot.style.transform = `translate(${targetX}px, ${targetY}px)`;
+      if (cutting && currentStroke) {
+        const pts = currentStroke.points;
+        const last = pts[pts.length - 1];
+        if (Math.hypot(targetX - last.x, targetY - last.y) > 6) {
+          spawnSparks(targetX, targetY, 2);
+        }
+        pts.push({ x: targetX, y: targetY });
+      }
+    });
+
+    window.addEventListener("pointerdown", (e) => {
+      cutting = true;
+      laser.classList.add("cutting");
+      currentStroke = { points: [{ x: e.clientX, y: e.clientY }], releasedAt: null };
+      strokes.push(currentStroke);
+      spawnSparks(e.clientX, e.clientY, 6);
+    });
+
+    window.addEventListener("pointerup", stopCutting);
+    // keep the laser visible even when the pointer leaves; just stop any cut
+    window.addEventListener("pointerleave", stopCutting);
+
+    // avoid native text selection while slashing across copy
+    document.addEventListener("selectstart", (e) => { if (cutting) e.preventDefault(); });
+  }
 
   // build one smooth continuous path (no per-segment caps → no beading)
   function tracePath(pts) {
@@ -164,7 +176,10 @@ if (isFinePointer && !prefersReducedMotion) {
   function buildSignatureHeading() {
     const sig = window.SIGNATURE;
     const h1 = document.querySelector(".name");
-    if (!sig || !sig.strokes || !sig.strokes.length || !h1) return;
+    if (!sig || !sig.strokes || !sig.strokes.length || !h1) {
+      document.documentElement.classList.add("no-sig");
+      return;
+    }
 
     const VBW = sig.width;
     const VBH = sig.height;
@@ -277,6 +292,8 @@ if (isFinePointer && !prefersReducedMotion) {
         const ex = rEnd.left + (brX / VBW) * rEnd.width;
         const ey = rEnd.top + (brY / VBH) * rEnd.height;
         dot.style.transform = `translate(${ex}px, ${ey}px)`;
+        // on touch there's no cursor to follow — let the ember fade out
+        if (!isFinePointer) laser.classList.remove("is-active");
       }
     }
 
@@ -290,7 +307,4 @@ if (isFinePointer && !prefersReducedMotion) {
 
   // build the signature heading immediately (reserves the empty draw space)
   buildSignatureHeading();
-
-  // avoid native text selection while slashing across copy
-  document.addEventListener("selectstart", (e) => { if (cutting) e.preventDefault(); });
 }
