@@ -8,7 +8,6 @@ const isFinePointer = window.matchMedia("(pointer: fine)").matches;
 if (isFinePointer && !prefersReducedMotion) {
   const laser = document.querySelector(".laser");
   const dot = document.querySelector(".laser-dot");
-  const flare = document.querySelector(".laser-flare");
   const canvas = document.querySelector(".cut-canvas");
   const ctx = canvas.getContext("2d");
 
@@ -26,9 +25,10 @@ if (isFinePointer && !prefersReducedMotion) {
 
   let targetX = window.innerWidth / 2;
   let targetY = window.innerHeight / 2;
-  let flareX = targetX;
-  let flareY = targetY;
-  let active = false;
+
+  // laser pointer is on at all times, tracking the cursor
+  laser.classList.add("is-active");
+  dot.style.transform = `translate(${targetX}px, ${targetY}px)`;
 
   // cutting state
   let cutting = false;
@@ -58,10 +58,6 @@ if (isFinePointer && !prefersReducedMotion) {
     targetX = e.clientX;
     targetY = e.clientY;
     dot.style.transform = `translate(${targetX}px, ${targetY}px)`;
-    if (!active) {
-      active = true;
-      laser.classList.add("is-active");
-    }
     if (cutting && currentStroke) {
       const pts = currentStroke.points;
       const last = pts[pts.length - 1];
@@ -89,11 +85,8 @@ if (isFinePointer && !prefersReducedMotion) {
     }
   }
   window.addEventListener("pointerup", stopCutting);
-  window.addEventListener("pointerleave", () => {
-    active = false;
-    laser.classList.remove("is-active");
-    stopCutting();
-  });
+  // keep the laser visible even when the pointer leaves; just stop any cut
+  window.addEventListener("pointerleave", stopCutting);
 
   // build one smooth continuous path (no per-segment caps → no beading)
   function tracePath(pts) {
@@ -129,11 +122,6 @@ if (isFinePointer && !prefersReducedMotion) {
   }
 
   const animate = () => {
-    // trailing flare follows the precise dot
-    flareX += (targetX - flareX) * 0.18;
-    flareY += (targetY - flareY) * 0.18;
-    flare.style.transform = `translate(${flareX}px, ${flareY}px)`;
-
     const t = now();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation = "lighter";
@@ -172,53 +160,136 @@ if (isFinePointer && !prefersReducedMotion) {
   animate();
 
   // intro: auto-draw a glowing "V" cut in the middle of the page on load
-  function runIntroCut() {
-    const cx = window.innerWidth / 2;
-    const cy = window.innerHeight / 2;
-    const halfH = window.innerHeight * 0.40; // V spans 80% of full height
-    const halfW = halfH * 0.6;
-    const P0 = { x: cx - halfW, y: cy - halfH };
-    const P1 = { x: cx, y: cy + halfH };
-    const P2 = { x: cx + halfW, y: cy - halfH };
+  // intro: the laser hand-draws the signature heading, leaving a glowing ember
+  function buildSignatureHeading() {
+    const sig = window.SIGNATURE;
+    const h1 = document.querySelector(".name");
+    if (!sig || !sig.strokes || !sig.strokes.length || !h1) return;
 
-    const stroke = { points: [{ x: P0.x, y: P0.y }], releasedAt: null, fade: 2800 };
-    strokes.push(stroke);
-    laser.classList.add("is-active", "cutting");
+    const VBW = sig.width;
+    const VBH = sig.height;
+    const NS = "http://www.w3.org/2000/svg";
 
-    const DURATION = 10000;
-    const start = now();
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("class", "sig");
+    svg.setAttribute("viewBox", `0 0 ${VBW} ${VBH}`);
+    svg.setAttribute("aria-hidden", "true");
+
+    // one path element per stroke — guarantees strokes reveal sequentially
+    // (a single combined path reveals subpaths in parallel across pen lifts)
+    const paths = [];
+    for (const s of sig.strokes) {
+      if (s.length < 2) continue;
+      let d = `M ${s[0][0]} ${s[0][1]}`;
+      for (let i = 1; i < s.length; i++) d += ` L ${s[i][0]} ${s[i][1]}`;
+      const pe = document.createElementNS(NS, "path");
+      pe.setAttribute("class", "sig-path");
+      pe.setAttribute("d", d);
+      svg.appendChild(pe);
+      paths.push(pe);
+    }
+
+    // the tip where the y's tail finishes (rightmost stroke endpoint, not an
+    // interior point) — the laser parks here at the end, like a period
+    let brX = -Infinity, brY = 0;
+    for (const s of sig.strokes) {
+      if (s.length < 2) continue;
+      for (const idx of [0, s.length - 1]) {
+        const x = s[idx][0], y = s[idx][1];
+        if (x > brX) { brX = x; brY = y; }
+      }
+    }
+
+    h1.innerHTML = "";
+    h1.setAttribute("aria-label", "Valentin Quelquejay");
+    const sr = document.createElement("span");
+    sr.className = "sr-only";
+    sr.textContent = "Valentin Quelquejay";
+    h1.appendChild(sr);
+    h1.appendChild(svg);
+
+    // measure once in the DOM; hide every stroke; compute cumulative offsets
+    const lens = paths.map((pe) => pe.getTotalLength());
+    const total = lens.reduce((a, b) => a + b, 0) || 1;
+    const cum = [];
+    let acc = 0;
+    for (const l of lens) { cum.push(acc); acc += l; }
+    paths.forEach((pe, i) => {
+      pe.style.strokeDasharray = lens[i];
+      pe.style.strokeDashoffset = lens[i];
+      pe.style.opacity = "0"; // round caps would otherwise dot the start point
+    });
+
+    // on load, place the laser at the signature's starting point, ready to draw
+    if (paths.length) {
+      const rStart = svg.getBoundingClientRect();
+      const p0 = paths[0].getPointAtLength(0);
+      targetX = rStart.left + (p0.x / VBW) * rStart.width;
+      targetY = rStart.top + (p0.y / VBH) * rStart.height;
+      dot.style.transform = `translate(${targetX}px, ${targetY}px)`;
+    }
+
+    const DURATION = 7000;
     let lastSpark = 0;
+    let start = 0;
+    const cooled = paths.map(() => false); // per-stroke: cooling started?
 
     function step() {
       const e = Math.min((now() - start) / DURATION, 1);
-      // easeInOutCubic
-      const p = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2;
-      let hx, hy;
-      if (p < 0.5) {
-        const u = p / 0.5;
-        hx = P0.x + (P1.x - P0.x) * u;
-        hy = P0.y + (P1.y - P0.y) * u;
-      } else {
-        const u = (p - 0.5) / 0.5;
-        hx = P1.x + (P2.x - P1.x) * u;
-        hy = P1.y + (P2.y - P1.y) * u;
+      const p = e; // linear → constant drawing speed along the whole signature
+      const D = total * p; // length drawn so far, across all strokes in order
+
+      // reveal each stroke up to where the tip has reached; once a stroke is
+      // fully drawn it starts cooling immediately — so earlier letters burn out
+      // before later ones (the V cools while the y is still being written)
+      for (let i = 0; i < paths.length; i++) {
+        const drawn = Math.max(0, Math.min(D - cum[i], lens[i]));
+        paths[i].style.strokeDashoffset = lens[i] - drawn;
+        paths[i].style.opacity = drawn > 0 ? "1" : "0";
+        if (drawn >= lens[i] && !cooled[i]) {
+          cooled[i] = true;
+          paths[i].classList.add("cooling");
+        }
       }
-      stroke.points.push({ x: hx, y: hy });
-      dot.style.transform = `translate(${hx}px, ${hy}px)`;
-      if (now() - lastSpark > 26) { spawnSparks(hx, hy, 2); lastSpark = now(); }
+
+      // tip rides the stroke currently being drawn
+      let idx = 0;
+      while (idx < paths.length - 1 && D > cum[idx] + lens[idx]) idx++;
+      const local = Math.max(0, Math.min(D - cum[idx], lens[idx]));
+      const pt = paths[idx].getPointAtLength(local);
+      const rect = svg.getBoundingClientRect();
+      const sx = rect.left + (pt.x / VBW) * rect.width;
+      const sy = rect.top + (pt.y / VBH) * rect.height;
+      dot.style.transform = `translate(${sx}px, ${sy}px)`;
+      if (now() - lastSpark > 28) { spawnSparks(sx, sy, 1); lastSpark = now(); }
 
       if (e < 1) {
         requestAnimationFrame(step);
       } else {
-        laser.classList.remove("is-active", "cutting");
-        // hold the finished slash at full brightness, then let it fade
-        setTimeout(() => { stroke.releasedAt = now(); }, 800);
+        paths.forEach((pe, i) => {
+          pe.style.strokeDashoffset = 0;
+          pe.style.opacity = "1";
+          if (!cooled[i]) { cooled[i] = true; pe.classList.add("cooling"); }
+        });
+        laser.classList.remove("cutting");
+        // park the laser as a dot at the end of the y, until the user moves
+        const rEnd = svg.getBoundingClientRect();
+        const ex = rEnd.left + (brX / VBW) * rEnd.width;
+        const ey = rEnd.top + (brY / VBH) * rEnd.height;
+        dot.style.transform = `translate(${ex}px, ${ey}px)`;
       }
     }
-    step();
+
+    // SVG is built and space reserved now; start the actual draw after a beat
+    setTimeout(() => {
+      start = now();
+      laser.classList.add("cutting");
+      step();
+    }, 650);
   }
-  // let the page entrance settle first, then slash
-  setTimeout(runIntroCut, 500);
+
+  // build the signature heading immediately (reserves the empty draw space)
+  buildSignatureHeading();
 
   // avoid native text selection while slashing across copy
   document.addEventListener("selectstart", (e) => { if (cutting) e.preventDefault(); });
