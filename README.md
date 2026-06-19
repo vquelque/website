@@ -1,15 +1,7 @@
 # Valentin's personal website
 
-A single static page — no build step. Just `index.html`, `styles.css`, and
-`main.js`, deployed to Netlify (serves the repo root, see `netlify.toml`).
-
-The hero name is the real handwritten signature, traced from
-`static/logo.png` by `tools/trace_signature.py` into `static/signature.js`
-and drawn on load with the laser effect. To regenerate the trace:
-
-```
-python3 tools/trace_signature.py   # needs numpy + scikit-image + pillow
-```
+A single static page (`index.html` + `styles.css` + `main.js`), no build step,
+deployed to Netlify from the repo root.
 
 ## Netlify status
 
